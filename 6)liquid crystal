@@ -1,0 +1,35 @@
+#include <DHT.h>
+#include <LiquidCrystal_I2C.h>
+//C:\Users\PGDM\AppData\Local\Programs\Arduino IDE\resources\app\lib
+#define DHT11_PIN D7
+LiquidCrystal_I2C Lcd(0x27,16,2);
+DHT dht11(DHT11_PIN,DHT11);
+void setup(){
+  dht11.begin();
+  Lcd.init();
+  Lcd.backlight();
+
+}
+void loop(){
+  float hum= dht11.readHumidity();
+  float temp_c=dht11.readTemperature();
+  Lcd.clear();
+  if ( isnan(temp_c) || isnan(hum)){
+    Lcd.setCursor(0,0);
+    Lcd.print("Failed");
+
+
+  }
+  else {
+    Lcd.setCursor(0,0);
+    Lcd.print("temp");
+    Lcd.print(temp_c);
+    Lcd.setCursor(0,1);
+    Lcd.print("hum");
+    Lcd.print(hum);
+    Lcd.print("%");
+
+  }
+  delay(2000);
+
+}
